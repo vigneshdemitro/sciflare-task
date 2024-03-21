@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response, Router } from "express";
-import passport from "passport";
 import jwt from "jsonwebtoken";
 import { User, UserModel } from "../models/user.model";
 import { createResponse } from "../utils/utils";

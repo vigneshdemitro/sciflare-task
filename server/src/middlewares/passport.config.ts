@@ -1,7 +1,6 @@
 import { configDotenv } from "dotenv";
 import { ExtractJwt, Strategy, StrategyOptionsWithoutRequest } from "passport-jwt";
 import { User, UserModel } from "../models/user.model";
-import { compare } from "bcrypt";
 import { createResponse } from "../utils/utils";
 import { NextFunction, Request, Response } from "express";
 configDotenv();
