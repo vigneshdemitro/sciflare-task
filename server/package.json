@@ -1,0 +1,55 @@
+{
+  "name": "sciflare-task",
+  "version": "1.0.0",
+  "description": "Organisation-task",
+  "main": "server.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "npx migrate-mongo up",
+    "migrate:down": "npx migrate-mongo down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigneshdemitro/sciflare-task.git"
+  },
+  "author": "Vigneshwar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vigneshdemitro/sciflare-task/issues"
+  },
+  "homepage": "https://github.com/vigneshdemitro/sciflare-task#readme",
+  "dependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/passport": "^1.0.16",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/winston": "^2.4.4",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "fs-extra": "^11.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "migrate-mongo": "^11.0.0",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.2.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "validator": "^13.11.0",
+    "winston": "^3.12.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.30",
+    "@types/validator": "^13.11.9",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
