@@ -3,8 +3,8 @@ import { validationResult } from "express-validator";
 import { UserService } from "../services/users.service";
 import { User } from "../models/user.model";
 import { createResponse } from "../utils/utils";
-import { BSONError } from "bson";
 import { MongooseError } from "mongoose";
+import { ObjectId } from "mongodb";
 
 export class UserController {
     private userService: UserService;
@@ -58,7 +58,12 @@ export class UserController {
     }
 
     async getUserById(req: Request, res: Response) {
-        const [error, user] = await this.userService.getUserById(req.params.userId);
+        let userId = req.params.userId;
+        const authUser = req.user as User;
+        if (authUser.role === 'user') {
+            userId = String(authUser._id);
+        }
+        const [error, user] = await this.userService.getUserById(userId);
         if (error) {
             let errors = error;
             if (error instanceof MongooseError) errors = error.message;

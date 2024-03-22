@@ -6,7 +6,7 @@ import passport from 'passport';
 
 const router: Router = Router();
 
-router.use('/login', AuthRouter);
+router.use('/auth', AuthRouter);
 
 router.use('/users', userRouter);
 

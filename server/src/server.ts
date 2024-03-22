@@ -6,6 +6,7 @@ import { createResponse } from "./utils/utils";
 import passport from "passport";
 import passportConfig from "./middlewares/passport.config";
 import logger from "./utils/logger";
+import cors from "cors";
 configDotenv();
 
 class Server {
@@ -24,6 +25,7 @@ class Server {
     }
 
     private initializeMiddlewares(): void {
+        this.app.use(cors())
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(passport.initialize());

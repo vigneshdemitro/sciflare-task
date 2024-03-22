@@ -2,7 +2,7 @@ import { configDotenv } from "dotenv";
 import { Response } from "express";
 import { hash } from 'bcrypt'
 import logger from "./logger";
-import { error } from "console";
+import { User } from "../models/user.model";
 configDotenv();
 
 interface StatusResponse {
@@ -32,7 +32,7 @@ export const createResponse = (res: Response, { status, code, payload }: StatusR
 
 export const hashPassword = async (plainPassword: string): Promise<string> => {
     try {
-        const salt = process.env.SALT || 10;
+        const salt = parseInt(process.env.SALT || '', 10) || 10;
         const hashPassword = await hash(plainPassword, salt);
         return hashPassword;
     } catch (error) {
@@ -40,3 +40,13 @@ export const hashPassword = async (plainPassword: string): Promise<string> => {
         throw new Error('Password hash failed');
     }
 }
+
+export const formatUser = (user: User, token: string) => ({
+    _id: user._id,
+    email: user.email,
+    name: user.name,
+    role: user.role,
+    organizationDetails: user.organizationDetails,
+    gender: user.gender,
+    token,
+})

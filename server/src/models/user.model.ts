@@ -8,7 +8,8 @@ export interface User extends Document {
     password: string;
     organizationId: ObjectId;
     role: 'user' | 'admin' | 'super_admin';
-    gender?: 'Male' | 'Female' | 'Other';
+    gender?: 'male' | 'female' | 'other';
+    image?: string;
     organizationDetails? : Organization;
 }
 
@@ -36,7 +37,10 @@ const UserSchema: Schema<User> = new Schema<User>(
         },
         gender: {
             type: String,
-            enum: ['Male', 'Female', 'Other'],
+            enum: ['male', 'female', 'other'],
+        },
+        image: {
+            type: String,
         },
     },
     {
@@ -49,6 +53,6 @@ UserSchema.virtual('organizationDetails', {
     foreignField: '_id',
     ref: 'organizations',
     justOne: true,
-})
+});
 
 export const UserModel = mongoose.model<User>('users', UserSchema);

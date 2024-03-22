@@ -27,8 +27,8 @@ const userController = new UserController();
 
 userRouter.post('/', validateUserDetails, userController.createUser.bind(userController));
 userRouter.get('/', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['admin']), userController.getUsers.bind(userController));
-userRouter.put('/:userId', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['user', 'admin']), validateUpdateUserDetails, userController.updateUser.bind(userController));
-userRouter.get('/:userId', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['user']), userController.getUserById.bind(userController));
-userRouter.delete('/:userId', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['admin']), userController.deleteUser.bind(userController));
+userRouter.put('/user/:userId?', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['user', 'admin']), validateUpdateUserDetails, userController.updateUser.bind(userController));
+userRouter.get('/user/:userId?', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['user', 'admin']), userController.getUserById.bind(userController));
+userRouter.delete('/user/:userId?', passport.authenticate('jwt', { session: false }), isAuthorizedRole(['admin']), userController.deleteUser.bind(userController));
 
 export default userRouter;

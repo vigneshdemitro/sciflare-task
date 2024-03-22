@@ -1,14 +1,16 @@
+import mongoose from 'mongoose';
 import { Organization, OrganizationModel } from '../models/organization.model';
+import { User, UserModel } from '../models/user.model';
 import logger from '../utils/logger';
 
 export class OrganizationService {
 
-    constructor() {}
+    constructor() { }
 
-    async createOrganization(userDetails: Organization): Promise<[null | any, Organization | null]> {
+    async createOrganization(organizationDetails: Organization): Promise<[null | any, Organization | null]> {
         try {
-            const user = new OrganizationModel(userDetails);
-            const savedOrganization = await user.save();
+            const organization = new OrganizationModel(organizationDetails);
+            const savedOrganization = await organization.save();
             return [null, savedOrganization];
         } catch (error) {
             logger.error('Error', error);
@@ -16,9 +18,9 @@ export class OrganizationService {
         }
     }
 
-    async updateOrganization(userId: string, userDetails: Organization): Promise<[null | any, Organization | null]> {
+    async updateOrganization(organizationId: string, organizationDetails: Organization): Promise<[null | any, Organization | null]> {
         try {
-            const updatedOrganization = await OrganizationModel.findByIdAndUpdate(userId, userDetails, { new: true });
+            const updatedOrganization = await OrganizationModel.findByIdAndUpdate(organizationId, organizationDetails, { new: true });
             return [null, updatedOrganization]
         } catch (error) {
             logger.error('Error', error);
@@ -26,9 +28,9 @@ export class OrganizationService {
         }
     }
 
-    async deleteOrganization(userId: string): Promise<[null | any, Organization | null]> {
+    async deleteOrganization(organizationId: string): Promise<[null | any, Organization | null]> {
         try {
-            const deletedOrganization = await OrganizationModel.findByIdAndDelete(userId);
+            const deletedOrganization = await OrganizationModel.findByIdAndDelete(organizationId);
             return [null, deletedOrganization];
         } catch (error) {
             logger.error('Error', error);
@@ -38,21 +40,24 @@ export class OrganizationService {
 
     async getOrganizations(): Promise<[null | any, Array<Organization> | null]> {
         try {
-            const users = await OrganizationModel.find().maxTimeMS(5000);
-            if (!users || users.length === 0) {
+            const organizations = await OrganizationModel.find().maxTimeMS(5000);
+            if (!organizations || organizations.length === 0) {
                 return [null, []];
             }
-            return [null, users];
+            await Promise.all(organizations.map(async (org) => {
+                org.users = await UserModel.find({ organizationId: org._id });
+            }));
+            return [null, organizations];
         } catch (error) {
             logger.error('Error', error);
             return [error, null];
         }
     }
 
-    async getOrganizationById(userId: string): Promise<[null | any, Organization | null]> {
+    async getOrganizationById(organizationId: string): Promise<[null | any, Organization | null]> {
         try {
-            const user = await OrganizationModel.findById(userId);
-            return [null, user];
+            const organization = await OrganizationModel.findById(organizationId);
+            return [null, organization];
         } catch (error) {
             logger.error('Error', error);
             return [error, null];

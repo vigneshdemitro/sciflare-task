@@ -26,6 +26,7 @@ module.exports = {
         role,
         organizationId: orgId,
         gender: faker.person.sex(),
+        image: faker.image.avatar(),
       })
 
       const organizations = faker.helpers.multiple(createRandomOrganization, { count: 3 });
